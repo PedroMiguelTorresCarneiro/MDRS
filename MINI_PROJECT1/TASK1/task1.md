@@ -89,17 +89,12 @@ The packet size distribution is given by the following probabilities:
 
 To compute the theoretical packet loss due to bit errors, we first need to calculate the weighted average packet size based on this distribution:
 - Intermediate step:
-    1. Calculate the **Average size** of the 2 uniform distributions:
+    - Calculate the **Average size** of the 2 uniform distributions:
         - $\text{Average }_{65-109} = \frac{65+109}{2} = 87$
         - $\text{Average }_{111-1517} = \frac{111+1517}{2} = 814$  
-    2. Calculate number of sizes for each distribution:
-        - $\text{Nº of Packets }_{65-109} = 109 - 65 + 1 = 45$
-        - $\text{Nº of Packets }_{111-1517} = 1517 - 111 + 1 = 1407$
-    3. Calculate the Uniform Average, too give the weight to each distribution in depending on the number of sizes:
-        - $ \text{Uniform Average } = \frac{\text{Weighted avg }_{65-109} + \text{Weighted avg}_{111-1517}}{\text{Total nº of sizes}} = \frac{(87 \times 45)+(814 \times 1407)}{45+1407} \approx 791.47 $   
-
+- then:
 $$
-\text{Average Size} = (0.19 \times 64) + (0.23 \times 110) + (0.17 \times 1518) + (0.41 \times \text{Uniform Average})  \approx 620.02_\text{bytes}
+\text{Average Size} = (0.19 \times 64) + (0.23 \times 110) + (0.17 \times 1518) + \left(0.41 \times \left(\frac{87+814}{2}\right) \right) \approx 479.95 \text{ bytes}
 $$
 
 This gives an approximation of the expected packet size across different packet sizes.
@@ -132,11 +127,11 @@ $$
 Now, to compute the theoretical average packet loss due to the bit error rate, we apply the above formula to the average packet size calculated earlier. The average packet loss due to bit errors for **$ b = 10^{-6} $** and **$ b = 10^{-4} $** is given by:
 
 $$
-P_{\text{loss}} = 1 - (1 - 10^{-6})^{8 \times \text{Average Size}} \approx  0.00494 \approx 0,49\% , \text { with b} = 10^{-6}
+P_{\text{loss}} = 1 - (1 - 10^{-6})^{8 \times \text{Average Size}} \approx  0.00383 \approx 0,38\% 
 $$
 
 $$
-P_{\text{loss}} = 1 - (1 - 10^{-4})^{8 \times \text{Average Size}} \approx 0.39106 \approx 39,10\%, \text { with b} = 10^{-4}
+P_{\text{loss}} = 1 - (1 - 10^{-4})^{8 \times \text{Average Size}} \approx 0.31885 \approx 31,89\%
 $$
 
 #### Step 5: Results
