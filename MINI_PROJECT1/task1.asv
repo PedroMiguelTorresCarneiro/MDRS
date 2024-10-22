@@ -1,0 +1,165 @@
+%{
+    In this task, use Sim2 developed in Task 6 of the Practical Guide. Consider always the capacity
+    of the link C = 10 Mbps and the size of the queue f = 10.000 Bytes. When performance
+    parameters are estimated by simulation, present the results based on 20 runs of the simulator
+    (with a stopping criterion of P = 100.000 on each run) and with 90% confidence intervals.
+%}
+
+%% 1.a)
+%{
+    Estimate by simulation the average packet delay and the average packet loss parameters 
+    when the bit error rate of the link is b = 10-6 and for the arrival rate values
+    \lamdba = 1500, 1600, 1700, 1800 and 1900 pps. 
+    Plot the results in bar charts with the confidence intervals in error bars1. 
+    
+    Justify the results and draw all relevant conclusions.
+
+    1 - https://www.mathworks.com/help/matlab/creating_plots/bar-chart-with-error-bars.html
+%}
+
+% lambda,C,f,P,b
+
+% Parameters
+C       = 10; % ------------> Mbps
+f       = 10000; % ---------> Bytes
+P       = 100000; % --------> Stopping criterion
+b       = 10^-6; % ---------> Bit error rate
+N       = 20; % ------------> Number of runs
+alfa    = 0.1; % -----------> Confidence level
+
+% Arrival rate values
+lambda  = [1500, 1600, 1700, 1800, 1900]; % pps
+
+% Pre-allocation
+PL      = zeros(N, length(lambda)); % ---> vector PL to store all the packet loss values
+APD     = zeros(N, length(lambda)); % ---> vector APD to store all the average packet delay values
+
+% Iterate over the arrival rate values (lambda)
+for j = 1:length(lambda)
+    % Simulation loop
+    for i= 1:N % ---> Number of runs
+        [PL(i,j), APD(i,j), ~, ~] = Sim2(lambda(j), C, f, P, b);
+    end
+end
+
+
+% Average packet loss
+media_PL = mean(PL); % ----> Average of the average packet loss
+term_PL = norminv(1-alfa/2)*sqrt(var(PL)/N); % ----> Confidence interval
+errlow_PL = media_PL - term_PL; % ----> Lower error bar
+errhigh_PL = media_PL + term_PL; % ----> Higher error bar
+
+% Average packet delay
+media_APD = mean(APD); % ----> Average of the average packet delay
+term_APD = norminv(1-alfa/2)*sqrt(var(APD)/N); % ----> Confidence interval
+errLow_APD = media_APD - term_APD; % ----> Lower error bar
+errHigh_APD = media_APD + term_APD; % ----> Higher error bar
+
+
+% Display results
+for j = 1:length(lambda)
+    fprintf('For lambda = %d pps:\n', lambda(j));
+    fprintf('Average packet loss: %.2f +- %.2f\n', media_PL(j), term_PL(j));
+    fprintf('Average packet delay: %.2f +- %.2f\n\n', media_APD(j), term_APD(j));
+end
+
+% Plot PACKE LOSS
+figure;
+bar(lambda, media_PL);
+hold on;
+
+er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % ----> Error bars
+er_PL.Color = [0 0 0];  % ----> Black
+er_PL.LineStyle = 'none'; % ----> No line
+title('Average Packet Loss');
+xlabel('Arrival rate (pps)');
+ylabel('Packet loss (%)');
+grid on;
+hold off;
+
+% Plot AVERAGE PACKET DELAY
+figure;
+bar(lambda, media_APD);
+hold on;
+
+er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % ----> Error bars
+er_APD.Color = [0 0 0];  % ----> Black
+er_APD.LineStyle = 'none'; % ----> No line
+title('Average Packet Delay');
+xlabel('Arrival rate (pps)');
+ylabel('Packet delay (ms)');
+grid on;
+hold off;
+
+
+%% 1b)
+%{
+    Repeat experiment 1.a considering now a bit error rate
+    b = 10-4. Justify the differences between these results and the results of experiment 1.a
+    and draw all relevant conclusions.
+%}
+
+b       = 10^-4; % ---------> Bit error rate
+
+% Iterate over the arrival rate values (lambda)
+for j = 1:length(lambda)
+    % Simulation loop
+    for i= 1:N % ---> Number of runs
+        [PL(i,j), APD(i,j), ~, ~] = Sim2(lambda(j), C, f, P, b);
+    end
+end
+
+
+% Average packet loss
+media_PL = mean(PL); % ----> Average of the average packet loss
+term_PL = norminv(1-alfa/2)*sqrt(var(PL)/N); % ----> Confidence interval
+errlow_PL = media_PL - term_PL; % ----> Lower error bar
+errhigh_PL = media_PL + term_PL; % ----> Higher error bar
+
+% Average packet delay
+media_APD = mean(APD); % ----> Average of the average packet delay
+term_APD = norminv(1-alfa/2)*sqrt(var(APD)/N); % ----> Confidence interval
+errLow_APD = media_APD - term_APD; % ----> Lower error bar
+errHigh_APD = media_APD + term_APD; % ----> Higher error bar
+
+
+% Display results
+for j = 1:length(lambda)
+    fprintf('For lambda = %d pps:\n', lambda(j));
+    fprintf('Average packet loss: %.2f +- %.2f\n', media_PL(j), term_PL(j));
+    fprintf('Average packet delay: %.2f +- %.2f\n\n', media_APD(j), term_APD(j));
+end
+
+% Plot PACKE LOSS
+figure;
+bar(lambda, media_PL);
+hold on;
+
+er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % ----> Error bars
+er_PL.Color = [0 0 0];  % ----> Black
+er_PL.LineStyle = 'none'; % ----> No line
+title('Average Packet Loss');
+xlabel('Arrival rate (pps)');
+ylabel('Packet loss (%)');
+grid on;
+hold off;
+
+% Plot AVERAGE PACKET DELAY
+figure;
+bar(lambda, media_APD);
+hold on;
+
+er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % ----> Error bars
+er_APD.Color = [0 0 0];  % ----> Black
+er_APD.LineStyle = 'none'; % ----> No line
+title('Average Packet Delay');
+xlabel('Arrival rate (pps)');
+ylabel('Packet delay (ms)');
+grid on;
+hold off;
+
+%% PRINT ALL VALUES TO DEBUG
+
+fprintf('Average packet loss: %.2f +- %.2f\n', PL);
+fprintf()
+fprintf('Average packet delay: %.2f +- %.2f\n', APD);
