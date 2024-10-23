@@ -1,4 +1,5 @@
 %{
+    TASK 1:
     In this task, use Sim2 developed in Task 6 of the Practical Guide. Consider always the capacity
     of the link C = 10 Mbps and the size of the queue f = 10.000 Bytes. When performance
     parameters are estimated by simulation, present the results based on 20 runs of the simulator
