@@ -17,7 +17,8 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
     % Events:
     ARRIVAL_DATA = 0;   % Arrival of a data packet
     ARRIVAL_VOIP = 2;   % Arrival of a VoIP packet
-    DEPARTURE = 1;      % Departure of a packet
+    DEPARTURE_DATA = 1;          % Departure of a packet
+    DEPARTURE_VOIP = 3;
     
     % State variables:
     STATE = 0;          % 0 - connection is free; 1 - connection is occupied
@@ -57,7 +58,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
             utilizando a função unifrnd() para gerar intervalos de 
             chegada uniformemente distribuídos [16 e 24]ms
         %}
-        tmpVoIP = Clock + 0.016 + (0.024 - 0.016)*rand();  % -------------------------------------> Intervalos de chegada uniformemente distribuídos [16 e 24]ms
+        tmpVoIP = Clock + 0.02*rand();  % -------------------------------------> Intervalos de chegada uniformemente distribuídos [16 e 24]ms
         
         %{  
             Criamos a função GeneratePacketSizeVoIP() :
@@ -86,7 +87,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
                 EventList = [EventList; ARRIVAL_DATA, tmp, GeneratePacketSizeData(), tmp];
                 if STATE == 0
                     STATE = 1;
-                    EventList = [EventList; DEPARTURE, Clock + 8*PacketSize/(C*10^6), PacketSize, Clock, ARRIVAL_DATA];
+                    EventList = [EventList; DEPARTURE_DATA, Clock + 8*PacketSize/(C*10^6), PacketSize, Clock];
                 else
                     if QUEUEOCCUPATION + PacketSize <= f
                         QUEUE = [QUEUE; PacketSize, Clock, ARRIVAL_DATA];  % Adicionar pacotes de dados à fila comum
@@ -102,7 +103,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
                 EventList = [EventList; ARRIVAL_VOIP, tmpVoIP, GeneratePacketSizeVoIP(), tmpVoIP]; 
                 if STATE == 0                                               % Se o estado for 0, então a conexão está livre(temos um pacote VoIP para transmitir)
                     STATE = 1;                                              
-                    EventList = [EventList; DEPARTURE, Clock + 8*PacketSize/(C*10^6), PacketSize, Clock, ARRIVAL_VOIP];
+                    EventList = [EventList; DEPARTURE_VOIP, Clock + 8*PacketSize/(C*10^6), PacketSize, Clock];
                 else
                     if QUEUEOCCUPATION + PacketSize <= f                    % Se a ocupação da fila mais o tamanho do pacote for menor que o tamanho da fila
                         QUEUE = [QUEUE; PacketSize, Clock, ARRIVAL_VOIP];   % Adicionar pacotes VoIP à fila comum
@@ -112,51 +113,68 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
                     end
                 end
                 
-                case DEPARTURE          % --------------------------------------------------------------> [CASE: first event = DEPARTURE]
+            case DEPARTURE_DATA    % --------------------------------------------------------------> [CASE: first event = DEPARTURE]
+                %{
+                    Implementar Prioridade de Pacotes VoIP:
+                        - Ordenar de dorma descendente a fila por tipo de pacote (VoIP):
+                            - Garante que no topo da fila fiquem os pacotes VoIP
+                            - Depois é so usar o que já estava implementado(
+                                Antes estava implementado para remover sempre o primeiro pacote    
+                                dai ser apenas ordenar a fila de forma a reaproveitar o codigo
+                            )
+                %}
+
+                TRANSBYTES_DATA = TRANSBYTES_DATA + PacketSize;         % Somar Bytes dos pacotes de DATA transmitidos
+                DELAYS_DATA = DELAYS_DATA + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
+                if Clock - ArrInstant > MAXDELAY_DATA                   % Verificar se o atraso atual é maior que o atraso máximo
+                    MAXDELAY_DATA = Clock - ArrInstant;                 % Atualizar atraso máximo
+                end
+                TRANSPACKETS_DATA = TRANSPACKETS_DATA + 1;              % Contabilizar pacotes de dados transmitidos
+    
+                if QUEUEOCCUPATION > 0 % -----------------------------------------------------------> Queue(1,1) = TAMANHO DO PRIMEIRO PACOTE DA FILA DE ESPERA
                     %{
-                        Implementar Prioridade de Pacotes VoIP:
-                            - Ordenar de dorma descendente a fila por tipo de pacote (VoIP):
-                                - Garante que no topo da fila fiquem os pacotes VoIP
-                                - Depois é so usar o que já estava implementado(
-                                    Antes estava implementado para remover sempre o primeiro pacote    
-                                    dai ser apenas ordenar a fila de forma a reaproveitar o codigo
-                                )
+                        Ordena a fila para dar prioridade aos pacotes VoIP,
+                        de forma descendente para garantir que no topo da fila
+                        ficam os pacote VoIP, para serem os primeiros a ser 
+                        transmitidos
+
+                        QUEUE = [QUEUE; PacketSize(1), Clock(2), PacketType(3)];
                     %}
-                
-                    if Event == ARRIVAL_DATA  % ----------------| Pacote transmitido é DATA |----------------
-                        TRANSBYTES_DATA = TRANSBYTES_DATA + PacketSize;         % Somar Bytes dos pacotes de DATA transmitidos
-                        DELAYS_DATA = DELAYS_DATA + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
-                        if Clock - ArrInstant > MAXDELAY_DATA                   % Verificar se o atraso atual é maior que o atraso máximo
-                            MAXDELAY_DATA = Clock - ArrInstant;                 % Atualizar atraso máximo
-                        end
-                        TRANSPACKETS_DATA = TRANSPACKETS_DATA + 1;              % Contabilizar pacotes de dados transmitidos
-                    else                     % ----------------| Pacote transmitido é VoIP |----------------
-                        TRANSBYTES_VOIP = TRANSBYTES_VOIP + PacketSize;         % Somar Bytes dos pacotes VoIP transmitidos
-                        DELAYS_VOIP = DELAYS_VOIP + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
-                        if Clock - ArrInstant > MAXDELAY_VOIP                   % Verificar se o atraso atual é maior que o atraso máximo
-                            MAXDELAY_VOIP = Clock - ArrInstant;                 % Atualizar atraso máximo
-                        end
-                        TRANSPACKETS_VOIP = TRANSPACKETS_VOIP + 1;              % Contabilizar pacotes VoIP transmitidos
-                    end
-        
-                    if QUEUEOCCUPATION > 0 % -----------------------------------------------------------> Queue(1,1) = TAMANHO DO PRIMEIRO PACOTE DA FILA DE ESPERA
-                        %{
-                            Ordena a fila para dar prioridade aos pacotes VoIP,
-                            de forma descendente para garantir que no topo da fila
-                            ficam os pacote VoIP, para serem os primeiros a ser 
-                            transmitidos
+                    QUEUE = sortrows(QUEUE, 3, "descend");
 
-                            QUEUE = [QUEUE; PacketSize(1), Clock(2), PacketType(3)];
-                        %}
-                        QUEUE = sortrows(QUEUE, 3, "descend");
+                    % Utilizar o que já estava implementado
+                    EventList = [EventList; DEPARTURE_DATA, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    QUEUEOCCUPATION = QUEUEOCCUPATION - QUEUE(1,1);
+                    QUEUE(1,:) = []; % -------------------------------------------------------------> Remover pacote da fila
+                else
+                    STATE = 0; % -------------------------------------------------------------------> Quando n há pacotes para serem transmitidos passa para o estado 0
+                end
+            case DEPARTURE_VOIP    % --------------------------------------------------------------> [CASE: first event = DEPARTURE]
+                TRANSBYTES_VOIP = TRANSBYTES_VOIP + PacketSize;         % Somar Bytes dos pacotes VoIP transmitidos
+                DELAYS_VOIP = DELAYS_VOIP + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
+                if Clock - ArrInstant > MAXDELAY_VOIP                   % Verificar se o atraso atual é maior que o atraso máximo
+                    MAXDELAY_VOIP = Clock - ArrInstant;                 % Atualizar atraso máximo
+                end
+                TRANSPACKETS_VOIP = TRANSPACKETS_VOIP + 1;              % Contabilizar pacotes VoIP transmitidos
 
-                        % Utilizar o que já estava implementado
-                        EventList = [EventList; DEPARTURE, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2), QUEUE(1,3)];
-                        QUEUEOCCUPATION = QUEUEOCCUPATION - QUEUE(1,1);
-                        QUEUE(1,:) = []; % -------------------------------------------------------------> Remover pacote da fila
-                    else
-                        STATE = 0; % -------------------------------------------------------------------> Quando n há pacotes para serem transmitidos passa para o estado 0
-                    end
+                if QUEUEOCCUPATION > 0 % -----------------------------------------------------------> Queue(1,1) = TAMANHO DO PRIMEIRO PACOTE DA FILA DE ESPERA
+                    %{
+                        Ordena a fila para dar prioridade aos pacotes VoIP,
+                        de forma descendente para garantir que no topo da fila
+                        ficam os pacote VoIP, para serem os primeiros a ser 
+                        transmitidos
+
+                        QUEUE = [QUEUE; PacketSize(1), Clock(2), PacketType(3)];
+                    %}
+                    QUEUE = sortrows(QUEUE, 3, "descend");
+
+                    % Utilizar o que já estava implementado
+                    EventList = [EventList; DEPARTURE_VOIP, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    QUEUEOCCUPATION = QUEUEOCCUPATION - QUEUE(1,1);
+                    QUEUE(1,:) = []; % -------------------------------------------------------------> Remover pacote da fila
+                else
+                    STATE = 0; % -------------------------------------------------------------------> Quando n há pacotes para serem transmitidos passa para o estado 0
+                end
         end
     end
     

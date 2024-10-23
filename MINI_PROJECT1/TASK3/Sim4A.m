@@ -131,7 +131,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4A(lambda
                     end
                 end
                 
-            case DEPARTURE_DATA     % --------------------------------------------------------------> [CASE: first event = DEPARTURE]
+            case DEPARTURE_DATA     % --------------------------------------------------------------> [CASE: first event = DEPARTURE_VOIP]
                 TRANSBYTES_DATA = TRANSBYTES_DATA + PacketSize;         % Somar Bytes dos pacotes de DATA transmitidos
                 DELAYS_DATA = DELAYS_DATA + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
                 if Clock - ArrInstant > MAXDELAY_DATA                   % Verificar se o atraso atual é maior que o atraso máximo
@@ -156,7 +156,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4A(lambda
                     STATE = 0; % -------------------------------------------------------------------> Quando n há pacotes para serem transmitidos passa para o estado 0
                 end
            
-            case DEPARTURE_VOIP     % --------------------------------------------------------------> [CASE: first event = DEPARTURE]
+            case DEPARTURE_VOIP     % --------------------------------------------------------------> [CASE: first event = DEPARTURE_VOIP]
                 TRANSBYTES_VOIP = TRANSBYTES_VOIP + PacketSize;         % Somar Bytes dos pacotes VoIP transmitidos
                 DELAYS_VOIP = DELAYS_VOIP + (Clock - ArrInstant);       % Tempo atual menos o instante em que chegou ao sistema
                 if Clock - ArrInstant > MAXDELAY_VOIP                   % Verificar se o atraso atual é maior que o atraso máximo
