@@ -5,7 +5,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4A(lambda
     %  f      - queue size (Bytes)
     %  P      - number of data packets (stopping criterion for data packets)
     %  n      - number of VoIP flows                                        --> n = nº de fluxos VoIP adicionais.
-    %  p      - maximum queue occupation percentage for data packets (%)    --> p = max(size) da fila de espera para pacotes de dados
+    %  p      - maximum queue occupation  (%)                               --> p = max(size) da fila de espera para pacotes de dados
     % OUTPUT PARAMETERS:
     %  PLdata   - packet loss of data packets (%)
     %  PLVoIP   - packet loss of VoIP packets (%)
@@ -99,7 +99,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4A(lambda
                     %}
                     if QUEUEOCCUPATION + PacketSize <= f * (p/100)
                         %{
-                            PERGUNTAR AO PROF SE EXISTE A POSSSIBILIDADE DE 
+                            PERGUNTAR AO PROF SE EXISTE A POSSIBILIDADE DE 
                             ACEITARMOS MAIS DO QUE 100% NO p 
 
                             CASO EXISTA, ENTÃO A CONDIÇÃO DEVERÁ SER COMPLEMENTADA

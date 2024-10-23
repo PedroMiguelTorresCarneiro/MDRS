@@ -145,6 +145,8 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4(lambda,
                             de forma descendente para garantir que no topo da fila
                             ficam os pacote VoIP, para serem os primeiros a ser 
                             transmitidos
+
+                            QUEUE = [QUEUE; PacketSize(1), Clock(2), PacketType(3)];
                         %}
                         QUEUE = sortrows(QUEUE, 3, "descend");
 

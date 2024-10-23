@@ -45,8 +45,7 @@ while TRANSPACKETS<P               % Stopping criterium
     switch Event
         case ARRIVAL         % If first event is an ARRIVAL
             TOTALPACKETS= TOTALPACKETS+1;
-            tmp= Clock + exprnd(1/lambda);00
-            ,
+            tmp= Clock + exprnd(1/lambda);
             EventList = [EventList; ARRIVAL, tmp, GeneratePacketSize(), tmp];
             if STATE==0
                 STATE= 1;

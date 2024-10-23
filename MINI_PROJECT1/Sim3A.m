@@ -120,7 +120,7 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim3A(lambda
                 numBits = PacketSize * 8;  % -------------------------------------------------------> Número de bits do pacote transmitido
                 if rand() < 1 - (1 - b)^numBits % --------------------> Pacote transmitido com ERROS (BER) --> DESCARTAR
                     % -----------------------------------------------> Pacote CONTÉM ERRO --> DESCARTAR
-                    if ArrInstant == ARRIVAL_DATA
+                    if Event == ARRIVAL_DATA
                         LOSTPACKETS_DATA = LOSTPACKETS_DATA + 1;  % ---------------> Pacote descartado --|DATA|-- devido a erro de transmissão
                     else
                         LOSTPACKETS_VOIP = LOSTPACKETS_VOIP + 1;  % ---------------> Pacote descartado --|VoIP|-- devido a erro de transmissão
