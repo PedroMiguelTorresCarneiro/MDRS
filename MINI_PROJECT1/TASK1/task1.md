@@ -90,8 +90,11 @@ The packet size distribution is given by the following probabilities:
 To compute the theoretical packet loss due to bit errors, we first need to calculate the weighted average packet size based on this distribution:
 - Intermediate step:
     - Calculate the **Average size** of the 2 uniform distributions:
-        - $\text{Average }_{65-109} = \frac{65+109}{2} = 87$
-        - $\text{Average }_{111-1517} = \frac{111+1517}{2} = 814$  
+        ```matlab
+          prob_left = (1 - (0.19 + 0.23 + 0.17)) / ((109 - 65 + 1) + (1517 - 111 + 1));
+          avg_bytes = 0.19*64 + 0.23*110 + 0.17*1518 + sum((65:109)*(prob_left)) + sum((111:1517)*(prob_left));
+          avg_time = avg_bytes * 8 / capacity;
+        ```
 - then:
 $$
 \text{Average Size} = (0.19 \times 64) + (0.23 \times 110) + (0.17 \times 1518) + \left(0.41 \times \left(\frac{87+814}{2}\right) \right) \approx 479.95 \text{ bytes}
@@ -155,7 +158,7 @@ $$
 
 1. **For $ b = 10^{-6} $**:
    - The theoretical packet loss due to bit errors is **2.29%**, which is higher than the simulated packet losses for all values of **λ** except **λ = 1900 pps** (simulated loss of **2.21 ± 0.04%**).
-   - The reason for this is that in the simulation, packet loss is not solely due to bit errors; queue overflow plays a significant role, especially at higher traffic loads. As the arrival rate increases, the queue fills up more frequently, causing more packet drops due to overflow. Thus, at lower **λ**, bit errors have a minimal effect compared to queue overflows.
+   - The reason for this is that in the simulation, packet loss is not solely due to bit errors; queue overflow plays a significant role, especially at higher traffic loads. As the arrival rate increases, the queue fills up more frequently, causing more packet drops due to overflow. Thus, at lower **λ**, bit errors have a minimal effect compared to queu∞e overflows.
    - As **λ** increases, the simulated packet loss approaches the theoretical value, indicating that both bit errors and queue overflow contribute significantly at higher traffic loads.
 
 2. **For $ b = 10^{-4} $**:

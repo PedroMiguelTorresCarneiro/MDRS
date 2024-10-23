@@ -16,6 +16,7 @@
 
     1 - https://www.mathworks.com/help/matlab/creating_plots/bar-chart-with-error-bars.html
 %}
+fprintf('\nAlinea 1a)\n Estimate the average packet delay and the average packet loss\n\n');
 
 % lambda,C,f,P,b
 
@@ -91,6 +92,7 @@ ylabel('Packet delay (ms)');
 grid on;
 hold off;
 
+fprintf('----------------------------------------------------[1a. END]\n\n');
 
 %% 1b)
 %{
@@ -98,6 +100,7 @@ hold off;
     b = 10-4. Justify the differences between these results and the results of experiment 1.a
     and draw all relevant conclusions.
 %}
+fprintf('\nAlinea 1b)\n Repeat experiment 1.a with b = 10^-4\n\n');
 
 b       = 10^-4; % ---------> Bit error rate
 
@@ -158,57 +161,40 @@ ylabel('Packet delay (ms)');
 grid on;
 hold off;
 
+fprintf('----------------------------------------------------[1b. END]\n\n');
 
 %% 1c)
-
-% Given probabilities for fixed sizes
-p_64 = 0.19;
-p_110 = 0.23;
-p_1518 = 0.17;
-
-% Uniform distribution for the remaining 41%
-p_uniform = 0.41;
-
-% Fixed packet sizes
-size_64 = 64;
-size_110 = 110;
-size_1518 = 1518;
-
-% Average of uniformly distributed packet sizes from 65 to 109 and from 111 to 1517
-avg_uniform_65_109 = mean(65:109);    % Average of packet sizes from 65 to 109
-avg_uniform_111_1517 = mean(111:1517); % Average of packet sizes from 111 to 1517
-
-% Total number of packet sizes in each range
-num_65_109 = 109 - 65 + 1;  % Number of packet sizes from 65 to 109
-num_111_1517 = 1517 - 111 + 1;  % Number of packet sizes from 111 to 1517
-
-% Weighted average of the two uniform ranges
-uniform_average = (avg_uniform_65_109 * num_65_109 + avg_uniform_111_1517 * num_111_1517) / (num_65_109 + num_111_1517);
-
-% Calculate the overall average packet size
-averageSize = p_64 * size_64 + p_110 * size_110 + p_1518 * size_1518 + p_uniform * uniform_average;
-
-%averageSize = 295.52028; % Average packet size in bytes
-
-% Display the average size
-fprintf('Theoretical Average Packet Size: %.2f bytes\n', averageSize);
-
+%{
+    Determine the theoretical average packet loss (in %) only due to 
+    the bit error rate for b = 10-6 and b = 10-4. Present and explain 
+    the MATLAB code developed for these calculations. 
+    Compare these values with the results obtained in 1.aand 1.b. 
+    What do you conclude?
+%}
+fprintf('\nAlinea 1c)\n Calculate the theoretical average packet loss due to the bit error rate [ONLY]\n');
 
 % Parameters
+b_values = [1e-6, 1e-4];                    % Bit error rates
 
-b1 = 10^-6; % Bit error rate (BER) 10^-6
-b2 = 10^-4; % Bit error rate (BER) 10^-4
+prob_left = (1 - (0.19 + 0.23 + 0.17)) / ((109 - 65 + 1) + (1517 - 111 + 1));
+avg_packet_size = 0.19*64 + 0.23*110 + 0.17*1518 + sum((65:109)*(prob_left)) + sum((111:1517)*(prob_left));
 
-% Calculate packet loss for b = 10^-6
-PLoss_b1 = 1 - (1 - b1)^(8 * averageSize);
 
-% Calculate packet loss for b = 10^-4
-PLoss_b2 = 1 - (1 - b2)^(8 * averageSize);
+    % Display the average packet size
+fprintf('\nAverage Packet Size: %.2f bytes\n\n', avg_packet_size);
 
-% Display the results
-fprintf('Theoretical Packet Loss for b = 10^-6: %.4f%%\n', PLoss_b1 * 100);
-fprintf('Theoretical Packet Loss for b = 10^-4: %.4f%%\n', PLoss_b2 * 100);
+% Initialize array to store packet loss for each bit error rate
+packet_loss = zeros(size(b_values));
 
+% Loop over each bit error rate
+for i = 1:length(b_values)
+    b = b_values(i);  % Current bit error rate
+    % Calculate packet loss using the formula
+    packet_loss(i) = 1 - (1 - b)^(8 * avg_packet_size);  % 8 bits per byte
+    fprintf('Packet loss for b = %.1e: %.4f%%\n', b_values(i), packet_loss(i) * 100);
+end
+
+fprintf('----------------------------------------------------[1c. END]\n\n');
 
 %% PRINT ALL VALUES TO DEBUG
 
