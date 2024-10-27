@@ -98,14 +98,12 @@ errHigh_TT = media_TT + term_TT; % ----> Higher error bar
 % Display results
 for j = 1:length(n_voip)
     fprintf('----------------------------| For n = %d VoIP flows:\n', n_voip(j));
-    fprintf('-------------> DATA\n');
-    fprintf('Average packet loss: %.2f +- %.2f\n', media_PL_data(j), term_PL_data(j));
-    fprintf('Average packet delay: %.2f +- %.2f\n', media_APD_data(j), term_APD_data(j));
-    fprintf('Average Maximum Packet Delay: %.2f +- %.2f\n', media_MPD_data(j), term_MPD_data(j));
-    fprintf('-------------> VoIP\n');
-    fprintf('Average packet loss: %.2f +- %.2f\n', media_PL_VoIP(j), term_PL_VoIP(j));
-    fprintf('Average packet delay: %.2f +- %.2f\n', media_APD_VoIP(j), term_APD_VoIP(j));
-    fprintf('Average Maximum Packet Delay: %.2f +- %.2f\n\n', media_MPD_VoIP(j), term_MPD_VoIP(j));
+    fprintf('[DATA] Average packet loss: %.2f +- %.2f\n', media_PL_data(j), term_PL_data(j));
+    fprintf('[VoIP] Average packet loss: %.2f +- %.2f\n', media_PL_VoIP(j), term_PL_VoIP(j));
+    fprintf('[DATA] Average packet delay: %.2f +- %.2f\n', media_APD_data(j), term_APD_data(j));
+    fprintf('[VoIP] Average packet delay: %.2f +- %.2f\n', media_APD_VoIP(j), term_APD_VoIP(j));
+    fprintf('[DATA] Average Maximum Packet Delay: %.2f +- %.2f\n', media_MPD_data(j), term_MPD_data(j));
+    fprintf('[VoIP] Average Maximum Packet Delay: %.2f +- %.2f\n\n', media_MPD_VoIP(j), term_MPD_VoIP(j));
     fprintf('-------------> THROUGHPUT\n');
     fprintf('Average Average Throughput: %.2f +- %.2f\n\n', media_TT(j), term_TT(j));
 end
@@ -126,31 +124,31 @@ fprintf('\nAlinea 2b)\n Ploting the bar char of PACKET LOSS (data and VoIP) \n\n
 data_color = [0 0.4470 0.7410];  % Blue for Data
 voip_color = [0.8500 0.3250 0.0980];  % Orange for VoIP
 
-% Plot combined Packet Loss for Data and VoIP
+% Create a figure and divide it into two subplots
 figure;
-hBar = bar(n_voip, [media_PL_data' media_PL_VoIP'], 'grouped');  % 'grouped' option for side-by-side bars
+
+% Plot Data Packet Loss
+subplot(1,2,1);  % 1 row, 2 columns, first plot
+bar(n_voip, media_PL_data, 'FaceColor', data_color);  % Data in blue
 hold on;
-
-% Set bar colors
-hBar(1).FaceColor = data_color;  % Data bars in blue
-hBar(2).FaceColor = voip_color;  % VoIP bars in orange
-
-% Error bars for Data Packet Loss (center them on the bars)
-xData = hBar(1).XEndPoints;  % Get the X positions of the Data bars
-errorbar(xData, media_PL_data, media_PL_data - errlow_PL_data, errhigh_PL_data - media_PL_data, 'k', 'linestyle', 'none', 'linewidth', 1.5);
-
-% Error bars for VoIP Packet Loss (center them on the bars)
-xVoIP = hBar(2).XEndPoints;  % Get the X positions of the VoIP bars
-errorbar(xVoIP, media_PL_VoIP, media_PL_VoIP - errlow_PL_VoIP, errhigh_PL_VoIP - media_PL_VoIP, 'k', 'linestyle', 'none', 'linewidth', 1.5);
-
-title('Average Packet Loss (Data and VoIP)');
+errorbar(n_voip, media_PL_data, media_PL_data - errlow_PL_data, errhigh_PL_data - media_PL_data, 'k', 'linestyle', 'none', 'linewidth', 1.5);
+title('Average Packet Loss - Data');
 xlabel('Number of VoIP flows');
 ylabel('Packet loss (%)');
 grid on;
-legend('Data', 'VoIP', 'Location', 'northeast');
-hold off;
 
+% Plot VoIP Packet Loss
+subplot(1,2,2);  % 1 row, 2 columns, second plot
+bar(n_voip, media_PL_VoIP, 'FaceColor', voip_color);  % VoIP in orange
+hold on;
+errorbar(n_voip, media_PL_VoIP, media_PL_VoIP - errlow_PL_VoIP, errhigh_PL_VoIP - media_PL_VoIP, 'k', 'linestyle', 'none', 'linewidth', 1.5);
+title('Average Packet Loss - VoIP');
+xlabel('Number of VoIP flows');
+ylabel('Packet loss (%)');
+grid on;
 
+% Adjust layout for side-by-side display
+sgtitle('Comparison of Packet Loss (Data vs VoIP)');  % Title for both subplots
 
 fprintf('----------------------------------------------------[2b. END]\n\n');
 

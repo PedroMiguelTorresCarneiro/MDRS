@@ -132,7 +132,11 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim3A(lambda
                 end
 
                 if QUEUEOCCUPATION > 0 % -----------------------------------------------------------> Queue(1,1) = TAMANHO DO PRIMEIRO PACOTE DA FILA DE ESPERA
-                    EventList = [EventList; DEPARTURE_DATA, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    if QUEUE(1,3) == ARRIVAL_DATA
+                        EventList = [EventList; DEPARTURE_DATA, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    else
+                        EventList = [EventList; DEPARTURE_VOIP, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    end
                     QUEUEOCCUPATION = QUEUEOCCUPATION - QUEUE(1,1);
                     QUEUE(1,:) = []; % -------------------------------------------------------------> Remover pacote da fila
                 else
@@ -157,7 +161,11 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim3A(lambda
                 end
 
                 if QUEUEOCCUPATION > 0 % -----------------------------------------------------------> Queue(1,1) = TAMANHO DO PRIMEIRO PACOTE DA FILA DE ESPERA
-                    EventList = [EventList; DEPARTURE_VOIP, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    if QUEUE(1,3) == ARRIVAL_VOIP
+                        EventList = [EventList; DEPARTURE_VOIP, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    else
+                        EventList = [EventList; DEPARTURE_DATA, Clock + 8*QUEUE(1,1)/(C*10^6), QUEUE(1,1), QUEUE(1,2)];
+                    end                   
                     QUEUEOCCUPATION = QUEUEOCCUPATION - QUEUE(1,1);
                     QUEUE(1,:) = []; % -------------------------------------------------------------> Remover pacote da fila
                 else
