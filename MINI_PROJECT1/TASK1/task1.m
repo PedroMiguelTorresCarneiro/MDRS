@@ -6,7 +6,7 @@
     (with a stopping criterion of P = 100.000 on each run) and with 90% confidence intervals.
 %}
 
-%% 1.a)
+%% 1.a) VALUES
 %{
     Estimate by simulation the average packet delay and the average packet loss parameters 
     when the bit error rate of the link is b = 10-6 and for the arrival rate values
@@ -65,37 +65,41 @@ for j = 1:length(lambda)
     fprintf('Average packet delay: %.2f +- %.2f\n\n', media_APD(j), term_APD(j));
 end
 
-% Plot PACKE LOSS
-figure;
-bar(lambda, media_PL);
-hold on;
+%% 1.a) PLOTS 
 
-er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % ----> Error bars
-er_PL.Color = [0 0 0];  % ----> Black
-er_PL.LineStyle = 'none'; % ----> No line
+% Define figure with two subplots for side-by-side display
+figure;
+
+% Plot Average Packet Loss on the left
+subplot(1,2,1);  % 1 row, 2 columns, first subplot
+bar(lambda, media_PL);  % Bar chart for packet loss
+hold on;
+er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % Error bars
+er_PL.Color = [0 0 0];  % Black error bars
+er_PL.LineStyle = 'none'; % No line connecting error bars
 title('Average Packet Loss');
 xlabel('Arrival rate (pps)');
 ylabel('Packet loss (%)');
 grid on;
 hold off;
 
-% Plot AVERAGE PACKET DELAY
-figure;
-bar(lambda, media_APD);
+% Plot Average Packet Delay on the right
+subplot(1,2,2);  % 1 row, 2 columns, second subplot
+bar(lambda, media_APD);  % Bar chart for packet delay
 hold on;
-
-er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % ----> Error bars
-er_APD.Color = [0 0 0];  % ----> Black
-er_APD.LineStyle = 'none'; % ----> No line
+er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % Error bars
+er_APD.Color = [0 0 0];  % Black error bars
+er_APD.LineStyle = 'none'; % No line connecting error bars
 title('Average Packet Delay');
 xlabel('Arrival rate (pps)');
 ylabel('Packet delay (ms)');
 grid on;
 hold off;
 
+
 fprintf('----------------------------------------------------[1a. END]\n\n');
 
-%% 1b)
+%% 1b) VALUES 
 %{
     Repeat experiment 1.a considering now a bit error rate
     b = 10-4. Justify the differences between these results and the results of experiment 1.a
@@ -134,28 +138,32 @@ for j = 1:length(lambda)
     fprintf('Average packet delay: %.2f +- %.2f\n\n', media_APD(j), term_APD(j));
 end
 
-% Plot PACKE LOSS
-figure;
-bar(lambda, media_PL);
-hold on;
 
-er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % ----> Error bars
-er_PL.Color = [0 0 0];  % ----> Black
-er_PL.LineStyle = 'none'; % ----> No line
+%% 1b) PLOTS
+
+% Define figure with two subplots for side-by-side display
+figure;
+
+% Plot Average Packet Loss on the left
+subplot(1,2,1);  % 1 row, 2 columns, first subplot
+bar(lambda, media_PL);  % Bar chart for packet loss
+hold on;
+er_PL = errorbar(lambda, media_PL, media_PL - errlow_PL, errhigh_PL - media_PL); % Error bars
+er_PL.Color = [0 0 0];  % Black error bars
+er_PL.LineStyle = 'none'; % No line connecting error bars
 title('Average Packet Loss');
 xlabel('Arrival rate (pps)');
 ylabel('Packet loss (%)');
 grid on;
 hold off;
 
-% Plot AVERAGE PACKET DELAY
-figure;
-bar(lambda, media_APD);
+% Plot Average Packet Delay on the right
+subplot(1,2,2);  % 1 row, 2 columns, second subplot
+bar(lambda, media_APD);  % Bar chart for packet delay
 hold on;
-
-er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % ----> Error bars
-er_APD.Color = [0 0 0];  % ----> Black
-er_APD.LineStyle = 'none'; % ----> No line
+er_APD = errorbar(lambda, media_APD, media_APD - errLow_APD, errHigh_APD - media_APD); % Error bars
+er_APD.Color = [0 0 0];  % Black error bars
+er_APD.LineStyle = 'none'; % No line connecting error bars
 title('Average Packet Delay');
 xlabel('Arrival rate (pps)');
 ylabel('Packet delay (ms)');
