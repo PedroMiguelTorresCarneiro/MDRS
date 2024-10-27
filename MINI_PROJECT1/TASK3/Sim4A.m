@@ -227,6 +227,6 @@ function [PLdata, PLVoIP, APDdata, APDVoIP, MPDdata, MPDVoIP, TT] = Sim4A(lambda
         Que gera pacotes VoIP com tamanhos entre 110 e 130 Bytes
     %}
     function out = GeneratePacketSizeVoIP()
-        out = 110 + randi(21); 
+        out = 109 + randi(21); 
     end
     
