@@ -193,7 +193,7 @@ fprintf('----------------------------------------------------[2c. END]\n\n');
     packet delay of each service in bar charts with the confidence intervals in error bars.
     Justify the results and draw all relevant conclusions.
 %}
-fprintf('\nAlinea 2c)\n Ploting the bar char of MAX PACKET DELAY (data and VoIP) \n\n');
+fprintf('\nAlinea 2d)\n Ploting the bar char of MAX PACKET DELAY (data and VoIP) \n\n');
 
 % Plot Maximum Packet Delay for Data and VoIP
 figure;
@@ -228,7 +228,7 @@ fprintf('----------------------------------------------------[2d. END]\n\n');
     throughput in bar charts with the confidence intervals in error bars. Justify the results and
     draw all relevant conclusions.
 %}
-fprintf('\nAlinea 2c)\n Ploting the bar char of THROUGHPUT \n\n');
+fprintf('\nAlinea 2e)\n Ploting the bar char of THROUGHPUT \n\n');
 
 % Plot Total Throughput
 figure;
@@ -247,3 +247,40 @@ hold off;
 
 
 fprintf('----------------------------------------------------[2e. END]\n\n');
+
+%% 2.f)
+%{
+    Determine the theoretical value of the total throughput for all
+    cases simulated in experiment 2.a. Present and explain the MATLAB code developed for
+    these calculations. Compare these values with the results obtained in 2.e. What do you
+    conclude?
+%}
+fprintf('\nAlinea 2f)\n Calculating Theoretical Total Throughput for Different VoIP Flow Counts\n\n');
+
+% Parameters
+prob_left = (1 - (0.19 + 0.23 + 0.17)) / ((109 - 65 + 1) + (1517 - 111 + 1)); % Probability for intermediate sizes
+avgSIZE_data = 0.19*64 + 0.23*110 + 0.17*1518 + sum((65:109)*(prob_left)) + sum((111:1517)*(prob_left)); % Average size of Data packets
+rate_data = 1500; % Data packet arrival rate (packets per second)
+data_TT = rate_data * avgSIZE_data * 8 / 10^6; % Data Throughput in Mbps
+
+% VoIP parameters
+avgSIZE_voip = ( 110 + 130 ) / 2; % Average size of VoIP packets (in bytes)
+int_time_voip = (16 + 24) / 2 / 10^3; % Average inter-arrival time for a single VoIP flow (converted to seconds)
+rate_single_voip = 1 / int_time_voip; % Rate of a single VoIP flow (in packets per second)
+
+% Define the number of VoIP flows to analyze
+num_voip_flows = [10, 20, 30, 40];
+
+% Loop through each VoIP flow scenario
+for i = 1:length(num_voip_flows)
+    n_voip = num_voip_flows(i); % Current number of VoIP flows
+    total_voip_rate = n_voip * rate_single_voip; % Total rate for all VoIP flows
+    voip_TT = total_voip_rate * avgSIZE_voip * 8 / 10^6; % VoIP Throughput in Mbps for this number of flows
+    final_TT = data_TT + voip_TT; % Total throughput (Data + VoIP)
+
+    % Display results for each VoIP flow scenario
+    fprintf('For %d VoIP flows:\n', n_voip);
+    fprintf('  Theoretical Total Throughput: %.2f Mbps\n\n', final_TT);
+end
+
+fprintf('----------------------------------------------------[2f. END]\n\n');
