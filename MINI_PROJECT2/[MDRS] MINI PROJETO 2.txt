@@ -110,56 +110,25 @@ a)
 
 Anycast nodes  			= 3  10
 
+Running Hill Climbing Optimization...
+total nº of cycles: 6740
+Time of the best Solution: 400.59 ms
+Cycle of the best Solution: 57
+Best Objective (Loads): 74.60 Gbps
+Average Objective: 78.58 Gbps
+
 -----------------------| Unicast Service S = 1
-> Worst round-trip delay  	= 9.18 ms 
-Average round-trip delay  	= 6.27 ms 
+Worst round-trip delay  	= 9.40 ms 
+Average round-trip delay  	= 6.59 ms 
 
 -----------------------| Unicast Service S = 2
-> Worst round-trip delay  	= 12.00 ms 
-Average round-trip delay  	= 6.32 ms 
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.16 ms 
 
 -----------------------| Anycast Service S = 3
 Worst round-trip delay  	= 6.16 ms 
 Average round-trip delay  	= 3.43 ms 
 
------------------------| Hill Climbing Status
-Anycast nodes  			= 3  10
-Total number of cycles  	= 2241574
-
------------------------| Per-Flow Metrics
-Flow x : best Time Solution | cycles for best time solution
-Flow 01 : 6.50 ms | 1 
-Flow 02 : 4.92 ms | 1 
-Flow 03 : 0.22 ms | 1 
-Flow 04 : 0.21 ms | 1 
-Flow 05 : 2.36 ms | 5 
-Flow 06 : 3.17 ms | 6 
-Flow 07 : 4.32 ms | 8 
-Flow 08 : 3.95 ms | 7 
-Flow 09 : 6.89 ms | 10 
-Flow 10 : 5.72 ms | 8 
-Flow 11 : 38.19 ms | 31 
-Flow 12 : 181.73 ms | 148 
-Flow 13 : 437.13 ms | 247 
-Flow 14 : 6.76 ms | 4 
-Flow 15 : 789.80 ms | 386 
-Flow 16 : 20.25 ms | 11 
-Flow 17 : 99.01 ms | 32 
-Flow 18 : 20.86 ms | 7 
-Flow 19 : 9.18 ms | 3 
-Flow 20 : 60.49 ms | 10 
-Flow 21 : 0.00 ms | 0 
-Flow 22 : 0.00 ms | 0 
-Flow 23 : 0.00 ms | 0 
-Flow 24 : 0.00 ms | 0 
-Flow 25 : 0.00 ms | 0 
-Flow 26 : 0.00 ms | 0 
-Flow 27 : 0.00 ms | 0 
-Flow 28 : 0.00 ms | 0 
-Flow 29 : 0.00 ms | 0 
-Flow 30 : 0.00 ms | 0 
-Flow 31 : 0.00 ms | 0 
-Flow 32 : 0.00 ms | 0 
 
 
 
@@ -167,181 +136,182 @@ b)
 
 AnyCast Nodes = 1 6
 
+Running Hill Climbing Optimization...
+total nº of cycles: 5805
+Time of the best Solution: 89.44 ms
+Cycle of the best Solution: 9
+Best Objective (Loads): 60.00 Gbps
+Average Objective: 63.72 Gbps
+
 -----------------------| Unicast Service S = 1
-> Worst round-trip delay  	= 9.18 ms 
-Average round-trip delay  	= 6.27 ms 
+Worst round-trip delay  	= 9.76 ms 
+Average round-trip delay  	= 5.58 ms 
 
 -----------------------| Unicast Service S = 2
-> Worst round-trip delay  	= 12.00 ms 
-Average round-trip delay  	= 6.71 ms 
+Worst round-trip delay  	= 12.00 ms 
+Average round-trip delay  	= 6.90 ms 
 
 -----------------------| Anycast Service S = 3
 Worst round-trip delay  	= 6.41 ms 
 Average round-trip delay  	= 3.02 ms 
 
------------------------| Hill Climbing Status
-Anycast nodes  				= 1  6
-Total number of cycles  	= 999
 
------------------------| Per-Flow Metrics
-Flow x : best Time Solution | cycles for best time solution
-Flow 01 : 6.66 ms | 1 
-Flow 02 : 5.83 ms | 1 
-Flow 03 : 0.19 ms | 1 
-Flow 04 : 0.51 ms | 1 
-Flow 05 : 3.19 ms | 8 
-Flow 06 : 3.30 ms | 5 
-Flow 07 : 1.11 ms | 2 
-Flow 08 : 3.52 ms | 7 
-Flow 09 : 0.59 ms | 1 
-Flow 10 : 11.03 ms | 12 
-Flow 11 : 30.72 ms | 25 
-Flow 12 : 645.62 ms | 483 
-Flow 13 : 299.40 ms | 189 
-Flow 14 : 385.67 ms | 206 
-Flow 15 : 11.70 ms | 8 
-Flow 16 : 61.73 ms | 27 
-Flow 17 : 45.75 ms | 13 
-Flow 18 : 1.64 ms | 1 
-Flow 19 : 3.75 ms | 1 
-Flow 20 : 21.00 ms | 7 
-Flow 21 : 0.00 ms | 0 
-Flow 22 : 0.00 ms | 0 
-Flow 23 : 0.00 ms | 0 
-Flow 24 : 0.00 ms | 0 
-Flow 25 : 0.00 ms | 0 
-Flow 26 : 0.00 ms | 0 
-Flow 27 : 0.00 ms | 0 
-Flow 28 : 0.00 ms | 0 
-Flow 29 : 0.00 ms | 0 
-Flow 30 : 0.00 ms | 0 
-Flow 31 : 0.00 ms | 0 
-Flow 32 : 0.00 ms | 0 
 
 
 c) 
 
 AnyCast Nodes = 4 12
 
+
+Running Hill Climbing Optimization...
+total nº of cycles: 4529
+Time of the best Solution: 44.59 ms
+Cycle of the best Solution: 4
+Best Objective (Loads): 62.60 Gbps
+Average Objective: 66.07 Gbps
+
 -----------------------| Unicast Service S = 1
-> Worst round-trip delay  	= 9.18 ms 
-Average round-trip delay  	= 6.27 ms 
+Worst round-trip delay  	= 9.04 ms 
+Average round-trip delay  	= 6.48 ms 
 
 -----------------------| Unicast Service S = 2
-> Worst round-trip delay  	= 12.00 ms 
-Average round-trip delay  	= 6.44 ms 
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.34 ms 
 
 -----------------------| Anycast Service S = 3
 Worst round-trip delay  	= 4.42 ms 
 Average round-trip delay  	= 2.90 ms 
 
------------------------| Hill Climbing Status
-Anycast nodes  			= 4  12
-Total number of cycles  	= 438
 
------------------------| Per-Flow Metrics
-Flow x : best Time Solution | cycles for best time solution
-Flow 01 : 6.96 ms | 1 
-Flow 02 : 6.04 ms | 1 
-Flow 03 : 0.18 ms | 1 
-Flow 04 : 0.23 ms | 1 
-Flow 05 : 1.37 ms | 3 
-Flow 06 : 2.46 ms | 3 
-Flow 07 : 0.68 ms | 1 
-Flow 08 : 2.36 ms | 4 
-Flow 09 : 2.54 ms | 3 
-Flow 10 : 1.16 ms | 1 
-Flow 11 : 5.74 ms | 6 
-Flow 12 : 214.24 ms | 149 
-Flow 13 : 130.96 ms | 82 
-Flow 14 : 196.52 ms | 104 
-Flow 15 : 76.14 ms | 39 
-Flow 16 : 29.92 ms | 12 
-Flow 17 : 3.46 ms | 2 
-Flow 18 : 25.37 ms | 8 
-Flow 19 : 2.85 ms | 1 
-Flow 20 : 53.38 ms | 16 
-Flow 21 : 0.00 ms | 0 
-Flow 22 : 0.00 ms | 0 
-Flow 23 : 0.00 ms | 0 
-Flow 24 : 0.00 ms | 0 
-Flow 25 : 0.00 ms | 0 
-Flow 26 : 0.00 ms | 0 
-Flow 27 : 0.00 ms | 0 
-Flow 28 : 0.00 ms | 0 
-Flow 29 : 0.00 ms | 0 
-Flow 30 : 0.00 ms | 0 
-Flow 31 : 0.00 ms | 0 
-Flow 32 : 0.00 ms | 0 
 
 
 d) 
 
 AnyCast Nodes = 5 14
 
+
+Running Hill Climbing Optimization...
+total nº of cycles: 5417
+Time of the best Solution: 141.64 ms
+Cycle of the best Solution: 14
+Best Objective (Loads): 60.00 Gbps
+Average Objective: 64.16 Gbps
+
 -----------------------| Unicast Service S = 1
-> Worst round-trip delay  	= 9.18 ms 
-Average round-trip delay  	= 6.27 ms 
+Worst round-trip delay  	= 10.13 ms 
+Average round-trip delay  	= 6.38 ms 
 
 -----------------------| Unicast Service S = 2
-> Worst round-trip delay  	= 12.00 ms 
-Average round-trip delay  	= 6.44 ms 
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.59 ms 
 
 -----------------------| Anycast Service S = 3
 Worst round-trip delay  	= 4.90 ms 
 Average round-trip delay  	= 2.52 ms 
 
------------------------| Hill Climbing Status
-Anycast nodes  			= 5  14
-Total number of cycles  	= 331
-
------------------------| Per-Flow Metrics
-Flow x : best Time Solution | cycles for best time solution
-Flow 01 : 6.50 ms | 1 
-Flow 02 : 6.11 ms | 1 
-Flow 03 : 0.29 ms | 1 
-Flow 04 : 0.22 ms | 1 
-Flow 05 : 4.27 ms | 11 
-Flow 06 : 2.18 ms | 3 
-Flow 07 : 2.95 ms | 7 
-Flow 08 : 4.17 ms | 8 
-Flow 09 : 3.97 ms | 3 
-Flow 10 : 2.09 ms | 1 
-Flow 11 : 7.63 ms | 9 
-Flow 12 : 12.95 ms | 9 
-Flow 13 : 117.71 ms | 74 
-Flow 14 : 196.62 ms | 108 
-Flow 15 : 76.87 ms | 36 
-Flow 16 : 3.20 ms | 1 
-Flow 17 : 74.40 ms | 31 
-Flow 18 : 45.33 ms | 18 
-Flow 19 : 8.75 ms | 2 
-Flow 20 : 13.66 ms | 6 
-Flow 21 : 0.00 ms | 0 
-Flow 22 : 0.00 ms | 0 
-Flow 23 : 0.00 ms | 0 
-Flow 24 : 0.00 ms | 0 
-Flow 25 : 0.00 ms | 0 
-Flow 26 : 0.00 ms | 0 
-Flow 27 : 0.00 ms | 0 
-Flow 28 : 0.00 ms | 0 
-Flow 29 : 0.00 ms | 0 
-Flow 30 : 0.00 ms | 0 
-Flow 31 : 0.00 ms | 0 
-Flow 32 : 0.00 ms | 0 
-
-
 
 --------------------------------------------------------> [TASK 3]
 
-a)
+a) 
+
+Anycast nodes  			= 3  10
 
 
-b)
+Running Hill Climbing Optimization...
+total nº of cycles: 4367
+Time of the best Solution: 37.80 ms
+Cycle of the best Solution: 1
+Best Objective (Loads): 111.90 Gbps
+Average Objective: 114.60 Gbps
+
+-----------------------| Unicast Service S = 1
+Worst round-trip delay  	= 11.27 ms 
+Average round-trip delay  	= 6.72 ms 
+
+-----------------------| Unicast Service S = 2
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.15 ms 
+
+-----------------------| Anycast Service S = 3
+Worst round-trip delay  	= 6.16 ms 
+Average round-trip delay  	= 3.43 ms 
 
 
-c)
+
+b) 
+
+AnyCast Nodes = 1 6
 
 
-d)
+Running Hill Climbing Optimization...
+total nº of cycles: 3940
+Time of the best Solution: 28.11 ms
+Cycle of the best Solution: 1
+Best Objective (Loads): 96.10 Gbps
+Average Objective: 98.34 Gbps
+
+-----------------------| Unicast Service S = 1
+Worst round-trip delay  	= 11.98 ms 
+Average round-trip delay  	= 6.41 ms 
+
+-----------------------| Unicast Service S = 2
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.04 ms 
+
+-----------------------| Anycast Service S = 3
+Worst round-trip delay  	= 6.41 ms 
+Average round-trip delay  	= 3.02 ms 
+
+
+
+
+c) 
+
+AnyCast Nodes = 4 12
+
+
+Running Hill Climbing Optimization...
+total nº of cycles: 2871
+Time of the best Solution: 149.62 ms
+Cycle of the best Solution: 4
+Best Objective (Loads): 96.10 Gbps
+Average Objective: 99.43 Gbps
+
+-----------------------| Unicast Service S = 1
+Worst round-trip delay  	= 11.06 ms 
+Average round-trip delay  	= 6.37 ms 
+
+-----------------------| Unicast Service S = 2
+Worst round-trip delay  	= 11.07 ms 
+Average round-trip delay  	= 6.04 ms 
+
+-----------------------| Anycast Service S = 3
+Worst round-trip delay  	= 4.42 ms 
+Average round-trip delay  	= 2.90 ms 
+
+
+
+d) 
+
+AnyCast Nodes = 5 14
+
+
+Running Hill Climbing Optimization...
+total nº of cycles: 3394
+Time of the best Solution: 58.18 ms
+Cycle of the best Solution: 2
+Best Objective (Loads): 96.10 Gbps
+Average Objective: 98.40 Gbps
+
+-----------------------| Unicast Service S = 1
+Worst round-trip delay  	= 11.98 ms 
+Average round-trip delay  	= 6.24 ms 
+
+-----------------------| Unicast Service S = 2
+Worst round-trip delay  	= 12.00 ms 
+Average round-trip delay  	= 6.15 ms 
+
+-----------------------| Anycast Service S = 3
+Worst round-trip delay  	= 4.90 ms 
+Average round-trip delay  	= 2.52 ms  
 

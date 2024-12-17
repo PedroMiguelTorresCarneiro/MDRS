@@ -1,7 +1,4 @@
-%% Task3
-
-%% a)
-
+%% Task 2 %% a)
 clear all 
 close all 
 clc  
@@ -25,7 +22,7 @@ v = 2e5;
 D = L/v; % Propagation delay for each link  
 
 % Anycast nodes 
-anycastNodes = [5, 14];  
+anycastNodes = [3, 10];  
 fprintf('Anycast Nodes: %s\n', mat2str(anycastNodes));
 
 % Initialize result storage variables 
@@ -36,8 +33,8 @@ bestSolutions = cell(1, nFlows);
 roundTripDelays = zeros(1, nFlows);  
 
 % Time limit for hill climbing algorithm 
-timeLimit = 60; % 1 second 
-k = 12; % Number of shortest paths to consider  
+timeLimit = 30; % 1 second 
+k = 6; % Number of shortest paths to consider  
 
 % Reset flow-specific variables     
 sP = cell(1, nFlows);
@@ -52,7 +49,7 @@ for f = 1:nFlows
     fprintf('Source: %d, Destination: %d\n', T(f, 2), T(f, 3));
     
     % Handle different service types     
-    if T(f, 1) == 1 % UNICAST SERVICE            
+    if T(f, 1) == 1 || T(f, 1) == 2 % UNICAST SERVICE            
         % Find k shortest paths             
         [shortestPaths, totalCosts] = kShortestPath(D, T(f,2), T(f,3), k);
         %disp(shortestPaths);
@@ -63,32 +60,14 @@ for f = 1:nFlows
         end
         
         % Store paths and number of paths             
-        sP{1,f} = shortestPaths;
-        sP{2,f} = 0;
+        sP{f} = shortestPaths;
         nSP(f) = length(totalCosts);
-        Taux(f,:) = T(f,2:5);
-    elseif T(f,1) == 2 % UNICAST SERVICE
-        % Find k pairs of link-disjoint paths
-        [firstPaths, secondPaths, totalPairCosts] = kShortestPathPairs(D, T(f,2), T(f,3), k);
-
-        % Debug print path pair details
-        fprintf('Unicast with Protection - Number of Path Pairs Found: %d\n', length(firstPaths));
-        for p = 1:length(firstPaths)
-            fprintf('Pair %d:  Total Pair Cost = %.2f ms\n', ...
-                p, totalPairCosts(p) * 1000);
-        end
-        
-        % Store working and backup paths
-        sP{1, f} = firstPaths;  % Working paths
-        sP{2, f} = secondPaths; % Protection paths
-        nSP(f) = length(totalPairCosts); % Number of valid path pairs
         Taux(f,:) = T(f,2:5);
 
     elseif T(f, 1) == 3 % ANYCAST SERVICE             
         if ismember(T(f,2), anycastNodes)                
             % Source is already an anycast node                
-            sP{1,f} = {T(f,2)}; 
-            sP{2,f} = 0;
+            sP{f} = {T(f,2)};                
             nSP(f) = 1;                
             Taux(f,:) = T(f,2:5);
             Taux(f,2) = T(f,2); % ---> Nó origm do percurso
@@ -103,12 +82,11 @@ for f = 1:nFlows
             
             for acNode = anycastNodes                    
                 [shortestPath, totalCost] = kShortestPath(D, T(f,2), acNode, 1);
-                fprintf('Anycast node %d - Path Cost: %.2f ms\n', acNode, totalCost*1000);
+                fprintf('Anycast node %d - Path Cost: %.2f mas\n', acNode, totalCost*1000);
                 %disp(shortestPath)
                 if totalCost < minCost                        
                     minCost = totalCost;                        
-                    sP{1,f} = shortestPath;
-                    sP{2,f} = 0;
+                    sP{f} = shortestPath;                        
                     nSP(f) = 1;
                     Taux(f,2) = acNode;
                     bestAnycastNode = acNode;                    
@@ -137,7 +115,7 @@ solutions = cell(1, nFlows);
 
 for p = 1:nFlows
     bestPathIndex = bestSol(p);
-    solutions{p} = sP{1,p}{bestPathIndex}; % Note the double {} since sP is a cell array of cell arrays
+    solutions{p} = sP{p}{bestPathIndex}; % Note the double {} since sP is a cell array of cell arrays
 end
 
 % Initialize oneWayDelays to store the delay for each solution path
@@ -191,14 +169,14 @@ fprintf("Average round-trip delay  \t= %.2f ms \n", mean(s3rtd));
 fprintf("\n")
 
 % Compute and plot the link loads using the optimized solution
-Loads = calculateLinkLoadsPairs(nNodes, Links, Taux, sP, bestSol);
-plotGraphWithLoadsDynamicColor(Nodes, Links, Loads, 2); % Plot graph with loads
-fprintf('Graph with dynamic loads plotted.\n');
-
+%Loads = calculateLinkLoads(nNodes, Links, Taux, sP, bestSol);
+%plotGraphWithLoadsDynamicColor(Nodes, Links, Loads, 2); % Plot graph with loads
+%fprintf('Graph with dynamic loads plotted.\n');
 
 for p = 1:nFlows
     fprintf('\nFlow %d --> %s \nOneWay Delay : %.2f | Roud-Trip Delay : %.2f\n\n', p, num2str(solutions{p}), oneWayDelays(p)*1000, oneWayDelays(p)*2000);
 end
+
 
 
 fprintf('----------------------------------------------------[a. END]\n\n');

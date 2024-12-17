@@ -13,12 +13,14 @@
         %
         sol = zeros(1, nFlows); % Initialize the solution to zero
         randFlows = randperm(nFlows); % Randomize the order of flows
+        % the rand flows must put the nFlows with sP length 1 e so depois os
+        % com 6
         for flow = randFlows
             path_index = 0; % Initialize the best path index
             best_load = inf; % Initialize the best load for this flow
             for path = 1:nSP(flow)
                 sol(flow) = path; % Assign the current path
-                Loads = calculateLinkLoadsPairs(nNodes, Links, T, sP, sol); % Calculate the link loads
+                Loads = calculateLinkLoads(nNodes, Links, T, sP, sol); % Calculate the link loads
                 load = max(max(Loads(:, 3:4))); % Evaluate the maximum load
                 
                 % Update the best path if the load is better
@@ -31,7 +33,7 @@
         end
 
         % Calculate the initial load after the greedy solution
-        Loads = calculateLinkLoadsPairs(nNodes, Links, T, sP, sol);
+        Loads = calculateLinkLoads(nNodes, Links, T, sP, sol);
         load = max(max(Loads(:, 3:4)));
 
         % ------------------------- HILL CLIMBING OPTIMIZATION -------------------------
@@ -51,7 +53,7 @@
                         auxSol = sol;
                         auxSol(flow) = path;
                         % ---> Calculate the load for the new solution
-                        Loads = calculateLinkLoadsPairs(nNodes, Links, T, sP, auxSol);
+                        Loads = calculateLinkLoads(nNodes, Links, T, sP, auxSol);
                         auxLoad = max(max(Loads(:, 3:4)));
 
                         % Check if the new load is better
